@@ -4,6 +4,11 @@ import os
 import uuid
 from pathlib import Path
 from typing import List, Dict
+from pymongo import MongoClient
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = FastAPI(title="File Upload API")
 
@@ -11,11 +16,14 @@ app = FastAPI(title="File Upload API")
 DATA_FOLDER = Path("data")
 DATA_FOLDER.mkdir(exist_ok=True)
 
-# Store file metadata (in production, use a database)
-file_metadata = {}
+# MongoDB connection
+MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://localhost:27017/")
+client = MongoClient(MONGODB_URL)
+db = client[os.getenv("DB_NAME", "file_upload_db")]
+files_collection = db["files"]
 
 
-@app.post("/uploa")
+@app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
     """
     Upload a file and store it in the data folder.
@@ -23,7 +31,7 @@ async def upload_file(file: UploadFile = File(...)):
     """
     try:
         # Generate unique file ID
-        file_id = str(uuid.uuid4())
+        # file_id = str(uuid.uuid4())
         
         # Get original filename
         original_filename = file.filename
@@ -38,13 +46,14 @@ async def upload_file(file: UploadFile = File(...)):
             content = await file.read()
             buffer.write(content)
         
-        # Store metadata
-        file_metadata[file_id] = {
-            "id": file_id,
+        # Store metadata in MongoDB
+        file_document = {
+            "_id": file_id,
             "filename": original_filename,
             "stored_filename": stored_filename,
             "size": len(content)
         }
+        files_collection.insert_one(file_document)
         
         return JSONResponse(
             status_code=200,
@@ -67,10 +76,10 @@ async def get_files() -> List[Dict[str, str]]:
     try:
         files = [
             {
-                "file_id": file_id,
-                "filename": metadata["filename"]
+                "file_id": file["_id"],
+                "filename": file["filename"]
             }
-            for file_id, metadata in file_metadata.items()
+            for file in files_collection.find({}, {"_id": 1, "filename": 1})
         ]
         
         return files

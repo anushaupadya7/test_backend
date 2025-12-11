@@ -1,18 +1,37 @@
 # FastAPI File Upload Project
 
-A simple FastAPI project with file upload and retrieval endpoints.
+A simple FastAPI project with file upload and retrieval endpoints, using MongoDB for metadata storage.
 
 ## Features
 
 - Upload files via `/upload` endpoint
 - Retrieve list of uploaded files via `/get_files` endpoint
 - Files stored in `data` folder with unique IDs
+- File metadata stored in MongoDB
+
+## Prerequisites
+
+- Python 3.7+
+- MongoDB installed and running locally, or a MongoDB connection string (e.g., MongoDB Atlas)
 
 ## Installation
 
 1. Install dependencies:
 ```bash
 pip install -r requirements.txt
+```
+
+2. Set up MongoDB:
+   - For local MongoDB: Make sure MongoDB is running on `mongodb://localhost:27017/`
+   - For MongoDB Atlas or remote: Get your connection string
+
+3. Configure environment variables:
+   - Copy `.env.example` to `.env`
+   - Update `MONGODB_URL` with your MongoDB connection string
+   - Update `DB_NAME` if you want a different database name
+
+```bash
+cp .env.example .env
 ```
 
 ## Running the Application
