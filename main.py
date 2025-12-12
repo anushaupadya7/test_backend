@@ -31,7 +31,7 @@ async def upload_file(file: UploadFile = File(...)):
     """
     try:
         # Generate unique file ID
-        # file_id = str(uuid.uuid4())
+        file_id = str(uuid.uuid4())
         
         # Get original filename
         original_filename = file.filename
