@@ -155,6 +155,7 @@ Your MongoDB connection is configured with:
 
 To view your data in MongoDB Compass:
 1. Open MongoDB Compass
-2. Connect using: `mongodb+srv://anusha:anusha@cluster0.temgbde.mongodb.net/`
+2. Connect using: `mongodb+srv://<username>:<password>@cluster0.temgbde.mongodb.net/`
 3. Navigate to `test_backend` database
 4. View `test_backend` collection (files) and `users` collection
+
