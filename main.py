@@ -230,7 +230,7 @@ async def upload_file(
     """
     try:
         # Generate unique file ID
-        # file_id = str(uuid.uuid4())
+        file_id = str(uuid.uuid4())
         
         # Get original filename
         original_filename = file.filename
@@ -300,7 +300,7 @@ async def root():
         "message": "File Upload API with Authentication",
         "endpoints": {
             "/login": "POST - Login and get access token",
-            "/logout": "POST - Logout (requires authentication) - ⚠️ BUGGY",
+            "/logout": "POST - Logout (requires authentication) -  BUGGY",
             "/users/me": "GET - Get current user info (requires authentication)",
             "/upload": "POST - Upload a file (requires authentication)",
             "/get_files": "GET - Get all uploaded files (requires authentication)",
