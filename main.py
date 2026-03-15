@@ -228,10 +228,10 @@ async def upload_file(
     Requires authentication.
     Returns the file ID and filename.
     """
+    # Generate unique file ID
+    file_id = str(uuid.uuid4())
+
     try:
-        # Generate unique file ID
-        file_id = str(uuid.uuid4())
-        
         # Get original filename
         original_filename = file.filename
         
