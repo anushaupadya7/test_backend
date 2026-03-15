@@ -228,8 +228,9 @@ async def upload_file(
     Requires authentication.
     Returns the file ID and filename.
     """
-    # Generate unique file ID so the payload can reference it
-    file_id = str(uuid.uuid4())  # keep file_id in scope before metadata
+    # Generate unique file ID so the payload can reference it.
+    # keep file_id in scope before metadata.
+    file_id = str(uuid.uuid4())
 
     try:
         # Get original filename
